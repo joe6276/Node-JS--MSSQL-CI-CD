@@ -2,6 +2,8 @@
 
 # How to Build a Backend Pipeline that Deploys a Node APP/ MSSQL Database to An EC2 Instance 
 
+![screenshot](gfdf.jpg)
+
 ## Continous Intergration (CI)
 # Let me explain the commands
 ### name: CI pipeline 
