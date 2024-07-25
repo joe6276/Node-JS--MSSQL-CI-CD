@@ -81,3 +81,140 @@ This will push the image built into your dockerHub account .
 
 
 ## Continous Deployment (CD)
+
+```ruby
+name: CD Pipeline
+on:
+    workflow_run:
+        workflows: ["CI pipeline"]
+        types:
+            - completed
+jobs:
+    build:
+        runs-on: self-hosted
+        steps:
+           
+            - name: Delete Old Docker Container
+              run:  sudo docker rm -f backend || true
+
+            - name: Delete Network
+              run: sudo docker network rm test || true
+
+            - name: Delete Old DB Docker Container
+              run:  sudo docker rm -f db || true
+
+            - name: Delete Image
+              run: sudo docker image rmi ndambuki/ci-backend-blogs || true
+
+            - name: Delete Image
+              run: sudo docker image rmi mcr.microsoft.com/mssql/server:2022-latest || true
+
+            - name: Pull Docker Image
+              run: sudo docker pull ndambuki/ci-backend-blogs
+            
+
+            - name: Create Network 
+              run: sudo docker network create blog 
+
+            - name: Run Database
+              run: sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Root@2024" --name db --network blog -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+            - name: Run Docker Container
+              run: sudo docker run  -d -p 80:80 --network blog --name backend ndambuki/ci-backend-blogs
+
+
+```
+## Lets Break it Down
+
+```ruby
+
+    name: CD Pipeline
+
+```
+
+This Gives our Piplenine a Name
+
+```ruby
+on:
+    workflow_run:
+        workflows: ["CI pipeline"]
+        types:
+            - completed
+```
+
+This says that this workflow will run after the CI Pipeline is done.
+
+```ruby
+runs-on: self-hosted
+```
+
+This Part says that the Runner we are using here is Self-hosted 
+
+
+```ruby
+
+- name: Delete Old Docker Container
+  run:  sudo docker rm -f backend || true
+```
+
+This commands delete aany existing backend container , If this Fails It will Still continue ( || True part)
+
+```ruby
+  - name: Delete Network
+    run: sudo docker network rm test || true
+```
+
+This will delete the Network if it exists otherwise continue
+
+```ruby
+
+- name: Delete Old DB Docker Container
+  run:  sudo docker rm -f db || true
+```
+
+This deletes existing Database container if any otherwise continue
+
+```ruby
+- name: Delete Image
+  run: sudo docker image rmi ndambuki/ci-backend-blogs || true
+```
+
+Deletes Image if it exists This can help optimize storage e.g. if using a small EC2 machine
+
+```ruby
+- name: Delete Image
+  run: sudo docker image rmi mcr.microsoft.com/mssql/server:2022-latest || true
+
+```
+
+Deletes the Database Image if it exists 
+
+
+```ruby
+ - name: Pull Docker Image
+   run: sudo docker pull ndambuki/ci-backend-blogs
+            
+```
+
+Downloads the latest docker Image
+
+```ruby
+ - name: Create Network 
+   run: sudo docker network create blog 
+```
+Creates a  New Network Called Blogs
+```ruby
+
+- name: Run Database
+  run: sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Root@2024" --name db --network blog -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+```
+Runs a new MSSQL container
+
+```ruby          
+- name: Run Docker Container
+ run: sudo docker run  -d -p 80:80 --network blog --name backend ndambuki/ci-backend-blogs
+
+ ```
+
+ Runs a new Backend Container 
