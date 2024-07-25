@@ -1,0 +1,11 @@
+
+
+
+USE Blogs
+
+CREATE OR ALTER PROCEDURE getUserBlogs(@authorId VARCHAR(255))
+AS
+BEGIN
+
+SELECT * FROM  BLogs WHERE AuthorId=@authorId
+END

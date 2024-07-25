@@ -1,0 +1,56 @@
+
+POST http://54.236.200.203/auth/register
+Content-Type: application/json
+
+{
+    "Name":"John4",
+    "Email":"john4@gmail.com",
+    "Password":"Root@2024"
+}
+
+####
+POST http://54.236.200.203/auth/login
+Content-Type: application/json
+
+{
+    "Email":"john4@gmail.com",
+    "Password":"Root@2024"
+}
+
+
+#####
+GET http://localhost:4005/test
+
+
+
+####
+POST http://localhost:80/auth/login
+Content-Type: application/json
+
+{
+    "Email":"john4@gmail.com",
+    "Password":"Root@2024"
+}
+
+#####
+POST http://3.80.109.212/blogs
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZGY2ZTZmNi01NDg4LTRlYWUtODQzNi1iN2UyYTc3OTdkMDgiLCJpYXQiOjE3MjEyODg2NTAsImV4cCI6MTcyMTI5OTQ1MH0.tk0em25Z0dd27oM-HAVDPz_mmLgtdBKQeQj6yCEtbPA
+
+{
+    "Heading":"AI",
+    "Description":"Ai is a great Game Changer",
+    "ImageUrl":"https://www.istockphoto.com/photo/businessman-touching-the-brain-working-of-artificial-intelligence-automation-gm1452604857-488908483?utm_source=pixabay&utm_medium=affiliate&utm_campaign=SRP_image_sponsored&utm_content=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fai%2F&utm_term=ai"
+}
+
+####
+GET http://localhost:80/blogs
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMWJlN2Y2YS04ZWFlLTQ2MTItYTM5MS0wNjdhODI3YzkyZjYiLCJpYXQiOjE3MjAyNzUwMDEsImV4cCI6MTcyMDI4NTgwMX0.l1Usb-2XwogAmvglvBFKectTgWJdIei6WUPReb-x_rk
+
+#####
+GET http://localhost:4005/blogs/8b75088b-1593-4f6e-9951-e8e30fa6785d
+
+
+#####
+GET http://localhost:4005/blogs/myblogs
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNDE0MDViMC1mODk4LTQxOWUtYWY3MS1lYmEwMTY5ODAwZTYiLCJpYXQiOjE3MTk2Nzg2OTcsImV4cCI6MTcxOTY4OTQ5N30.9i2KU46_TLqG_t4uriqGX2tg33H7byG1QG79N1zZluA

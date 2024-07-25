@@ -1,0 +1,24 @@
+name: CI pipeline
+on: 
+    push:
+        branches:
+            - master
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get Code
+              uses: actions/checkout@v4
+
+            - name: Login DockerHub
+              env:
+                DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+                DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+              run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+            - name: Build the Docker Image
+              run: docker build -t ndambuki/ci-backend-blogs .
+            
+            - name: Push to DockerHub
+              run: docker push ndambuki/ci-backend-blogs:latest
+            

@@ -1,0 +1,38 @@
+name: CD Pipeline
+on:
+    workflow_run:
+        workflows: ["CI pipeline"]
+        types:
+            - completed
+jobs:
+    build:
+        runs-on: self-hosted
+        steps:
+           
+            - name: Delete Old Docker Container
+              run:  sudo docker rm -f backend || true
+
+            - name: Delete Network
+              run: sudo docker network rm test || true
+
+            # - name: Delete Old DB Docker Container
+            #   run:  sudo docker rm -f db || true
+
+            - name: Delete Image
+              run: sudo docker image rmi ndambuki/ci-backend-blogs || true
+
+            # - name: Delete Image
+            #   run: sudo docker image rmi mcr.microsoft.com/mssql/server:2022-latest || true
+
+            - name: Pull Docker Image
+              run: sudo docker pull ndambuki/ci-backend-blogs
+            
+
+            # - name: Create Network 
+            #   run: sudo docker network create blog 
+
+            # - name: Run Database
+              # run: sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Root@2024" --name db --network blog -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+            - name: Run Docker Container
+              run: sudo docker run  -d -p 80:80 --network blog --name backend ndambuki/ci-backend-blogs

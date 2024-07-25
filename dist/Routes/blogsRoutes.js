@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const blogsController_1 = require("../Controllers/blogsController");
+const verifyToken_1 = require("../Middleware/verifyToken");
+const blogRoutes = (0, express_1.Router)();
+blogRoutes.post('', verifyToken_1.verifyToken, blogsController_1.addBlog);
+blogRoutes.get('', blogsController_1.getBlogs);
+blogRoutes.get('/myblogs', verifyToken_1.verifyToken, blogsController_1.getBlog);
+blogRoutes.get('/:id', verifyToken_1.verifyToken, blogsController_1.getaBlog);
+exports.default = blogRoutes;
